@@ -1,3 +1,4 @@
+*{margin:0;padding:0}
 .container{
     display: flex;
 }
@@ -8,6 +9,9 @@ flex-direction: column;
 border: 2px solid black;
 height: 100%;
 }
+#navbar header h1{
+    padding: 10px;
+}
 #navbar a{
 width: 100%;
 border-top: 1px solid black;
@@ -16,6 +20,7 @@ border-top: 1px solid black;
 border-bottom: 1px solid black;
 }
 #navbar a button{
+background-color: white;
 width: 100%;
 border: none;
 height: 50px;
@@ -27,5 +32,18 @@ height: 50px;
 display: flex;
 flex-direction: column;
 flex-grow: 1;
-padding-left: 350px;
+padding-left: 375px;
+}
+
+.main-section header h2{
+font-weight: bold;   
+}
+.main-section header h3{
+    font-weight: bold;
+}
+.code-sample{
+    background-color: lightgrey;
+    
+    display: flex;
+    flex-direction: column;
 }
