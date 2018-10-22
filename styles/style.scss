@@ -1,0 +1,65 @@
+@mixin mobile {
+    @media (max-width: 1200px) { @content; }
+  }
+
+*{margin:0;padding:0}
+.container{
+    display: flex;
+}
+#navbar{
+position: fixed;
+display: flex;
+flex-direction: column;
+border: 2px solid black;
+height: 100%;
+@include mobile{
+    display: none;
+}
+}
+#navbar header h1{
+    padding: 10px;
+}
+#navbar a{
+width: 100%;
+border-top: 1px solid black;
+}
+#navbar a:nth-of-type(7){
+border-bottom: 1px solid black;
+}
+#navbar a button{
+background-color: white;
+width: 100%;
+border: none;
+height: 50px;
+}
+#navbar a button:hover{
+    background-color: lightgrey;
+}
+#main-doc{
+display: flex;
+flex-direction: column;
+flex-grow: 1;
+padding-left: 375px;
+@include mobile{
+    zoom: 160%;
+    flex-grow: 0;
+    align-items: center;
+    padding-left: 0px;
+}
+}
+
+.main-section header h2{
+font-weight: bold;   
+}
+.main-section header h3{
+    font-weight: bold;
+}
+.code-sample{
+    background-color: lightgrey;
+    width: 575px;
+    display: flex;
+    flex-direction: column;
+}
+.bottom-li{
+    padding-bottom: 10px;
+}

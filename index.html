@@ -1,6 +1,7 @@
 <html>
 <head>
 <meta charset="utf-8">
+<title>React Documentation</title>
 <link rel="stylesheet" href="styles/style.min.css" type="text/css" >
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link href="//cdn.muicss.com/mui-0.9.41/css/mui.min.css" rel="stylesheet" type="text/css" />
@@ -8,14 +9,276 @@
 </head>
 <body>
 <div class="container">
-    <nav id="nav-bar">
-        <header>
+    <nav id="navbar">
+            <header>
             <h1>React Documentation</h1>
-        </header>
+            </header>
+            <a class="nav-link" href ="#introduction"><button>Introduction</button></a>
+            <a class="nav-link" href ="#prerequisites"><button>Prerequisites</button></a>
+            <a class="nav-link" href ="#a_simple_component"><button>A Simple Component</button></a>
+            <a class="nav-link" href ="#a_stateful_component"><button>A Stateful Component</button></a>
+            <a class="nav-link" href ="#an_application"><button>An Application</button></a>
+            <a class="nav-link" href ="#a_component_using_external_plugins"><button>A Component Using External Plugins</button></a>
+            <a class="nav-link" href ="#closing"><button>Closing</button></a>
     </nav>
-    <main id="main-doc"></main>
+    <main id="main-doc">
+    <section id="introduction" class="main-section">
+    <header>
+    <h2 id="main-section-title">Introduction</h2>
+    </header>
+    <h3>React<br>A JavaScript library for building user interfaces</h3>
+    <ul>
+    <li><h4>Declarative</h4></li>
+    <p>React makes it painless to create interactive UIs. Design simple views for each state in your application,<br> and React will efficiently update and render just the right components when your data changes.
+        Declarative views make your code more predictable and easier to debug.
+    </p>
+    <li><h4>Component-Based</h4></li>
+    <p>Build encapsulated components that manage their own state, then compose them to make complex UIs.<br> 
+        Since component logic is written in JavaScript instead of templates, you can easily pass rich data through your app and keep state out of the DOM.
+    </p>
+    <li><h4>Learn Once, Write Anywhere</h4></li>
+    <p>We don’t make assumptions about the rest of your technology stack, so you can develop new features in React without rewriting existing code.<br> 
+        React can also render on the server using Node and power mobile apps using React Native.
+    </p>
+    </ul><p>Here's a standard "Hello World!" Example in React:</p>
+    <div class="code-sample">
+    <pre>
+    <code>
+    ReactDOM.render(
+        &lt;h1>Hello, world!&lt;/h1>,
+        document.getElementById('root')
+    );
+    </code>
+    </pre>
+    </div>
+    </section>
+    <section id="prerequisites" class="main-section">
+    <header>
+    <h2>Prerequisites</h2>
+    </header>
+    <p>We’ll assume that you have some familiarity with HTML and JavaScript</p>
+    <p>If you need to review JavaScript, we recommend reading <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/A_re-introduction_to_JavaScript">this guide</a>. 
+        Note that we’re also using some features from ES6 — a recent version of JavaScript.
+    </p>
+    </section>
+    <section id="a_simple_component" class="main-section">
+    <header>
+    <h2>A Simple Component</h2>
+    </header>
+    <p>
+        React components implement a render() method that takes input data and returns what to display.<br> This example uses an XML-like syntax called JSX. Input data that is passed into the component can be accessed by render() via this.props.
+    </p>
+    <p><b>JSX is optional and not required to use React.</b> Try the Babel REPL to see the raw JavaScript code produced by the JSX compilation step.
+    </p>
+    <div class=code-sample>
+    <pre>
+    <code>
+    class HelloMessage extends React.Component {
+        render() {
+          return (
+            &lt;div&gt;
+              Hello {this.props.name}
+            &lt;/div&gt;
+          );
+        }
+      }
+      
+      ReactDOM.render(
+        &lt;HelloMessage name="Taylor" />,
+        mountNode
+      );
+    </code>
+    </pre>
+    </div>
+    </section>
+    <section id="a_stateful_component" class="main-section">
+    <header>
+    <h2>A Stateful Component</h2>
+    </header>
+    <p>In addition to taking input data (accessed via this.props), a component can maintain internal state data (accessed via this.state).<br> When a component’s 
+        state data changes, the rendered markup will be updated by re-invoking render().
+    </p>
+    <div class="code-sample">
+    <pre>
+    <code>
+    class Timer extends React.Component {
+        constructor(props) {
+            super(props);
+            this.state = { seconds: 0 };
+        }
+        
+        tick() {
+            this.setState(state => ({
+            seconds: state.seconds + 1
+            }));
+        }
+              
+        componentDidMount() {
+            this.interval = setInterval(() => this.tick(), 1000);
+        }
+    </code>
+    </pre>
+    </div>
+    </section>
+    <section id="an_application" class="main-section">
+    <header>
+    <h2>An Application</h2>
+    </header>
+    <p>Using props and state, we can put together a small Todo application.<br>
+         This example uses state to track the current list of items as well as the text that the user has entered.<br>
+          Although event handlers appear to be rendered inline, they will be collected and implemented using event delegation.
+    </p>
+    <div class="code-sample">
+    <pre>
+    <code>
+class TodoApp extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { items: [], text: '' };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  render() {
+    return (
+        &lt;div>
+        &lt;h3>TODO</h3>
+        &lt;TodoList items={this.state.items} />
+        &lt;form onSubmit={this.handleSubmit}>
+        &lt;label htmlFor="new-todo">
+            What needs to be done?
+            &lt;/label>
+          &lt;input
+            id="new-todo"
+            onChange={this.handleChange}
+            value={this.state.text}
+          />
+          &lt;button>
+            Add #{this.state.items.length + 1}
+            &lt;/button>
+        &lt;/form>
+        &lt;/div>
+    );
+  }
+
+  handleChange(e) {
+    this.setState({ text: e.target.value });
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+    if (!this.state.text.length) {
+      return;
+    }
+    const newItem = {
+      text: this.state.text,
+      id: Date.now()
+    };
+    this.setState(state => ({
+      items: state.items.concat(newItem),
+      text: ''
+    }));
+  }
+}
+
+class TodoList extends React.Component {
+  render() {
+    return (
+      &lt;ul>
+        {this.props.items.map(item => (
+          &lt;li key={item.id}>{item.text}</li>
+        ))}
+      &lt;/ul>
+    );
+  }
+}
+
+ReactDOM.render(&lt;TodoApp />, mountNode);
+    </code>
+    </pre>
+    </div>
+    </section>
+    <section id="a_component_using_external_plugins" class="main-section">
+    <header>
+    <h2>A Component Using External Plugins</h2>
+    </header>
+    <p>React is flexible and provides hooks that allow you to interface with other libraries and frameworks.<br>
+         This example uses remarkable, an external Markdown library, to convert the &lt;textarea&gt;’s value in real time.</p>
+    <div class="code-sample">
+    <pre>
+    <code>
+class MarkdownEditor extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleChange = this.handleChange.bind(this);
+    this.state = { value: 'Hello, **world**!' };
+  }
+
+  handleChange(e) {
+    this.setState({ value: e.target.value });
+  }
+
+  getRawMarkup() {
+    const md = new Remarkable();
+    return { __html: md.render(this.state.value) };
+  }
+
+  render() {
+    return (
+      &lt;div className="MarkdownEditor">
+      &lt;h3>Input</h3>
+      &lt;label htmlFor="markdown-content">
+          Enter some markdown
+        &lt;/label>
+        &lt;textarea
+          id="markdown-content"
+          onChange={this.handleChange}
+          defaultValue={this.state.value}
+        />
+        &lt;h3>Output</h3>
+        &lt;div
+          className="content"
+          dangerouslySetInnerHTML={this.getRawMarkup()}
+        />
+        &lt;/div>
+    );
+  }
+}
+
+ReactDOM.render(&lt;MarkdownEditor />, mountNode);
+    </code>
+    </pre>
+    </div>
+    </section>
+    <section id="closing" class="main-section">
+    <header>
+    <h2>Closing</h2>
+    </header>
+    <p>For a more detailed explanation of each of these topics, check out the official React tutorial <a href="https://reactjs.org/tutorial/tutorial.html">here</a> or for more advanced topics, be sure to read the <a href="https://reactjs.org/docs/hello-world.html">rest of the documentation</a>.<br>
+         To learn more about defining components, check out the <a href="https://reactjs.org/docs/react-component.html">React.Component API reference</a>.</p>
+    <p>
+            If you haven’t worked with JavaScript in the last few years, these three points should give you enough knowledge to feel comfortable reading the React documentation:
+    </p>
+    <ul>
+    <li class="bottom-li">We define variables with let and const statements. For the purposes of the React documentation, you can consider them equivalent to var.</li>
+    <li class="bottom-li">We use the class keyword to define JavaScript classes. There are two things worth remembering about them.<br>
+         Firstly, unlike with objects, you don't need to put commas between class method definitions. Secondly, unlike many other languages with classes,<br>
+          in JavaScript the value of this in a method depends on how it is called.
+    </li>
+    <li class="bottom-li">We sometimes use => to define "arrow functions". They're like regular functions, but shorter.<br>
+         For example, x => x * 2 is roughly equivalent to function(x) { return x * 2; }. Importantly, arrow functions don't have their<br>
+          own this value so they're handy when you want to preserve the this value from an outer method definition.
+    </li>
+    </ul>
+    <p>Don't worry if this is too much to take in at once. The <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript">MDN JavaScript Reference</a>is a stellar resource,<br>
+         and you can consult it whenever you get confused by something.
+    </p>
+    <p>Also, when you feel unsure about what some newer syntax means, you can use the <a href="https://babeljs.io/repl/#?babili=false&browsers=&build=&builtIns=false&spec=false&loose=false&code_lz=MYewdgzgLgBAllApgWwjAvDA2gRgDQwBMBAzALoDcAUKJLACYgCuARgDaL0bxKoB0yAIYAHABQAPDAD4YkgFREAlBSA&debug=false&forceAllTransforms=false&shippedProposals=false&circleciRepo=&evaluate=false&fileSize=false&
+        timeTravel=false&sourceType=module&lineWrap=true&presets=es2015%2Creact%2Cstage-1%2Cstage-2%2Cstage-3&prettier=true&targets=Node-6.12&version=6.26.0&envVersion=">Babel REPL with the ES2015 preset</a><br>
+         to check what equivalent older syntax it compiles to.</p>
+    </section>
+    </main>
 </div>
-<script>
-</script>
+<script src="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js"></script>
 </body>
 </html>
